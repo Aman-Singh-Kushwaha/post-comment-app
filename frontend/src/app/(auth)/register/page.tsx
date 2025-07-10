@@ -22,7 +22,6 @@ export default function RegisterPage() {
       router.push('/login');
     } catch (error) {
       console.error('Failed to register', error);
-      // Handle register error
     }
   };
 
