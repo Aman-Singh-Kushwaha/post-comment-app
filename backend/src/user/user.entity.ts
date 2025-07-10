@@ -4,7 +4,10 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { Post } from '../posts/post.entity';
+import { Comment } from '../comments/comment.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -17,6 +20,12 @@ export class User {
   @Exclude()
   @Column({ name: 'password_hash', type: 'text' })
   passwordHash: string;
+
+  @OneToMany(() => Post, (post) => post.author)
+  posts: Post[];
+
+  @OneToMany(() => Comment, (comment) => comment.author)
+  comments: Comment[];
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
