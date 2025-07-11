@@ -18,13 +18,8 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await login({ username, password });
-      router.push('/');
-    } catch (error) {
-      console.error('Failed to login', error);
-      // Handle login error (e.g., show a toast)
-    }
+    await login({ username, password });
+    router.push('/');
   };
 
   return (

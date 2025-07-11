@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { loginEndpoint } from '@/lib/api';
+import { login as apiLogin } from '@/lib/api';
 import { jwtDecode } from 'jwt-decode';
 
 interface User {
@@ -9,12 +9,12 @@ interface User {
   username: string;
 }
 
-import { ILoginCredentials } from '@/types';
+import { LoginCredentials } from '@/types';
 
 interface AuthContextType {
   user: User | null;
   token: string | null;
-  login: (credentials: ILoginCredentials) => Promise<void>;
+  login: (credentials: LoginCredentials) => Promise<void>;
   logout: () => void;
 }
 
@@ -33,8 +33,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  const login = async (credentials: ILoginCredentials) => {
-    const { access_token } = await loginEndpoint(credentials);
+  const login = async (credentials: LoginCredentials) => {
+    const { access_token } = await apiLogin(credentials);
     const decoded = jwtDecode<User>(access_token);
     localStorage.setItem('token', access_token);
     setUser(decoded);

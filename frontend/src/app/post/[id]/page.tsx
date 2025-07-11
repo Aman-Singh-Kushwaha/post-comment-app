@@ -14,7 +14,7 @@ export default function PostPage() {
   const params = useParams();
   const router = useRouter();
   const [post, setPost] = useState<Post | null>(null);
-  const id = Array.isArray(params.id) ? params.id[0] : params.id;
+  const id = Array.isArray(params?.id) ? params.id[0] : params?.id;
 
 
   useEffect(() => {

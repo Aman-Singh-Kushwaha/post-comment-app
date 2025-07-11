@@ -1,4 +1,4 @@
-import { ILoginCredentials, IRegisterCredentials, CreatePostDto, UpdatePostDto } from '@/types';
+import { LoginCredentials, RegisterCredentials, CreatePostDto, UpdatePostDto } from '@/types';
 import {toast} from 'sonner';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
@@ -19,7 +19,7 @@ const handleResponse = async (response: Response) => {
 };
 
 // Auth
-export const loginEndpoint = async (credentials: ILoginCredentials) => {
+export const login = async (credentials: LoginCredentials) => {
   const response = await fetch(`${API_BASE_URL}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -29,7 +29,7 @@ export const loginEndpoint = async (credentials: ILoginCredentials) => {
   return handleResponse(response);
 };
 
-export const registerEndpoint = async (data: IRegisterCredentials) => {
+export const register = async (data: RegisterCredentials) => {
   const response = await fetch(`${API_BASE_URL}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

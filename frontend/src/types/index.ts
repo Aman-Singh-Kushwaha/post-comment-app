@@ -1,14 +1,14 @@
-export interface ILoginCredentials {
+export interface LoginCredentials {
   username: string;
   password: string;
 }
 
-export interface IRegisterCredentials {
+export interface RegisterCredentials {
   username: string;
   password: string;
 }
 
-export interface IAuthor {
+export interface Author {
   id: string;
   username: string;
 }
@@ -17,7 +17,7 @@ export interface Post {
   id: string;
   title: string;
   content: string;
-  author: IAuthor;
+  author: Author;
   createdAt: string;
   updatedAt: string;
 }

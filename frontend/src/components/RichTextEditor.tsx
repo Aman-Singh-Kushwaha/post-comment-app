@@ -16,6 +16,7 @@ const RichTextEditor = ({ value, onChange }: RichTextEditorProps) => {
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
+    immediatelyRender:false,
   });
 
   return (
@@ -43,7 +44,8 @@ const RichTextEditor = ({ value, onChange }: RichTextEditorProps) => {
           <Strikethrough className="h-4 w-4" />
         </Button>
       </Toolbar>
-      <EditorContent editor={editor} />
+      <EditorContent className = "min-h-[300px] border-solid-2" editor={editor} />
+
     </div>
   );
 };

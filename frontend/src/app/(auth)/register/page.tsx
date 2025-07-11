@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { registerEndpoint } from '@/lib/api';
+import { register } from '@/lib/api';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,7 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await registerEndpoint({ username, password });
+      await register({ username, password });
       router.push('/login');
     } catch (error) {
       console.error('Failed to register', error);

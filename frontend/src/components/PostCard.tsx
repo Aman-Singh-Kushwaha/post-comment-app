@@ -9,23 +9,32 @@ interface PostCardProps {
 
 const PostCard = ({ post }: PostCardProps) => {
   return (
+    <Link href={`/post/${post.id}`} className="block">
     <Card>
       <CardHeader>
-        <CardTitle>{post.title}</CardTitle>
+        <CardTitle className='text-xl '>{post.title}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <RichTextRenderer content={post.content.substring(0, 200) + '...'} />
+      <CardContent className=' ml-4'>
+        <RichTextRenderer content={post.content.substring(0, 200)} />
       </CardContent>
       <CardFooter className="flex justify-between">
-        <div className="text-sm text-muted-foreground">
-          <p>By {post.author.username}</p>
-          <p>{new Date(post.createdAt).toLocaleDateString()}</p>
+        <div className="text-md text-muted-foreground">
+          <p>By {post.author.username}  {new Date(post.createdAt).toLocaleDateString("en-US",{
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
+            })} {"   "} {
+              new Date(post.createdAt).toLocaleTimeString("en-US", {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+              })
+            }</p>
         </div>
-        <Link href={`/post/${post.id}`} className="text-blue-500 hover:underline">
-          Read More
-        </Link>
+        
       </CardFooter>
     </Card>
+    </Link>
   );
 };
 
