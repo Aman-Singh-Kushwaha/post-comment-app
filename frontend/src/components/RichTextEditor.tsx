@@ -2,9 +2,14 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Toolbar } from '@/components/ui/toolbar';
 import { Button } from '@/components/ui/button';
-import { Bold, Italic, Strikethrough, Link } from 'lucide-react';
+import { Bold, Italic, Strikethrough } from 'lucide-react';
 
-const RichTextEditor = ({ value, onChange }) => {
+interface RichTextEditorProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+const RichTextEditor = ({ value, onChange }: RichTextEditorProps) => {
   const editor = useEditor({
     extensions: [StarterKit],
     content: value,
@@ -17,18 +22,21 @@ const RichTextEditor = ({ value, onChange }) => {
     <div>
       <Toolbar>
         <Button
+          type="button"
           variant={editor?.isActive('bold') ? 'secondary' : 'ghost'}
           onClick={() => editor?.chain().focus().toggleBold().run()}
         >
           <Bold className="h-4 w-4" />
         </Button>
         <Button
+          type="button"
           variant={editor?.isActive('italic') ? 'secondary' : 'ghost'}
           onClick={() => editor?.chain().focus().toggleItalic().run()}
         >
           <Italic className="h-4 w-4" />
         </Button>
         <Button
+          type="button"
           variant={editor?.isActive('strike') ? 'secondary' : 'ghost'}
           onClick={() => editor?.chain().focus().toggleStrike().run()}
         >
