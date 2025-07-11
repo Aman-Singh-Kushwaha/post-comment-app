@@ -28,14 +28,19 @@ export class PostsService {
     return this.postRepository.save(post);
   }
 
-  async findAll(): Promise<Post[]> {
-    return this.postRepository.find({
+  async findAll(): Promise<any[]> {
+    const posts = await this.postRepository.find({
       relations: ['author'],
       order: { createdAt: 'DESC' },
     });
+    return posts.map(post => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { passwordHash, ...author } = post.author;
+      return { ...post, author };
+    });
   }
 
-  async findOne(id: string): Promise<Post> {
+  async findOne(id: string): Promise<any> {
     const post = await this.postRepository.findOne({
       where: { id },
       relations: ['author'],
@@ -43,7 +48,9 @@ export class PostsService {
     if (!post) {
       throw new NotFoundException(`Post with ID ${id} not found`);
     }
-    return post;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { passwordHash, ...author } = post.author;
+    return { ...post, author };
   }
 
   async update(
