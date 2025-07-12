@@ -31,3 +31,22 @@ export interface UpdatePostDto {
   title?: string;
   content?: string;
 }
+
+export interface Comment {
+  id: string;
+  content: string;
+  parentId: string | null;
+  isEdited: boolean;
+  isDeleted: boolean;
+  deletedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  author: Author;
+  childrenCount: string;
+}
+
+export interface CreateCommentDto {
+  content: string;
+  postId: string;
+  parentId?: string;
+}

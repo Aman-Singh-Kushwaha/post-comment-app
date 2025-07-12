@@ -58,17 +58,49 @@ export class CommentsService {
 
 
   async findByPost(postId: string): Promise<any[]> {
-    return this.getCommentQueryBuilder()
+    const comments = await this.getCommentQueryBuilder()
       .andWhere('comment.postId = :postId', { postId })
       .andWhere('comment.parentId IS NULL')
       .orderBy('comment.createdAt', 'DESC')
       .getRawMany();
+
+    return comments.map(comment => ({
+      id: comment.comment_id,
+      content: comment.comment_content,
+      parentId: comment.comment_parentId,
+      isEdited: comment.comment_isEdited,
+      isDeleted: comment.comment_isDeleted,
+      deletedAt: comment.comment_deletedAt,
+      createdAt: comment.comment_createdAt,
+      updatedAt: comment.comment_updatedAt,
+      author: {
+        id: comment.author_id,
+        username: comment.author_username,
+      },
+      childrenCount: parseInt(comment.childrenCount),
+    }));
   }
 
   async findReplies(commentId: string): Promise<any[]> {
-    return this.getCommentQueryBuilder()
+    const replies = await this.getCommentQueryBuilder()
       .andWhere('comment.parentId = :commentId', { commentId })
       .orderBy('comment.createdAt', 'ASC')
       .getRawMany();
+
+    return replies.map(reply => ({
+      id: reply.comment_id,
+      content: reply.comment_content,
+      parentId: reply.comment_parentId,
+      isEdited: reply.comment_isEdited,
+      isDeleted: reply.comment_isDeleted,
+      deletedAt: reply.comment_deletedAt,
+      createdAt: reply.comment_createdAt,
+      updatedAt: reply.comment_updatedAt,
+      author: {
+        id: reply.author_id,
+        username: reply.author_username,
+      },
+      childrenCount: parseInt(reply.childrenCount),
+    }));
   }
 }

@@ -8,12 +8,14 @@ import { Post } from '@/types';
 import RichTextRenderer from '@/components/RichTextRenderer';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { CommentFeed } from '@/components/comments/CommentFeed';
 
 export default function PostPage() {
   const { user, token } = useAuth();
   const params = useParams();
   const router = useRouter();
   const [post, setPost] = useState<Post | null>(null);
+  const [loadingComments, setLoadingComments] = useState(true);
   const id = Array.isArray(params?.id) ? params.id[0] : params?.id;
 
 
@@ -66,6 +68,10 @@ export default function PostPage() {
           </Button>
         </div>
       )}
+
+      <hr className="my-8" />
+
+      {id && <CommentFeed postId={id} />}
     </div>
   );
 }

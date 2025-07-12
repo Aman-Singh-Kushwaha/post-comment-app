@@ -1,4 +1,4 @@
-import { LoginCredentials, RegisterCredentials, CreatePostDto, UpdatePostDto } from '@/types';
+import { LoginCredentials, RegisterCredentials, CreatePostDto, UpdatePostDto, CreateCommentDto } from '@/types';
 import {toast} from 'sonner';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
@@ -84,5 +84,29 @@ export const deletePost = async (id: string, token: string) => {
     },
   });
   if (response.ok) toast.success('Post deleted successfully');
+  return handleResponse(response);
+};
+
+// Comments
+export const getCommentsByPostId = async (postId: string) => {
+  const response = await fetch(`${API_BASE_URL}/comments/${postId}`);
+  return handleResponse(response);
+};
+
+export const getReplies = async (postId: string, commentId: string) => {
+  const response = await fetch(`${API_BASE_URL}/comments/${postId}/replies/${commentId}`);
+  return handleResponse(response);
+};
+
+export const createComment = async (data: CreateCommentDto, token: string) => {
+  const response = await fetch(`${API_BASE_URL}/comments`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  if (response.ok) toast.success('Comment posted successfully');
   return handleResponse(response);
 };
