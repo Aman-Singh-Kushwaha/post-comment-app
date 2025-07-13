@@ -1,8 +1,22 @@
-import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { Comment } from './comment.entity';
 import { CreateCommentDto } from './dto/create-comment.dto';
+
+interface RawCommentData {
+  comment_id: string;
+  comment_content: string;
+  comment_parentId: string | null;
+  comment_isEdited: boolean;
+  comment_isDeleted: boolean;
+  comment_deletedAt: string | null;
+  comment_createdAt: string;
+  comment_updatedAt: string;
+  author_id: string;
+  author_username: string;
+  childrenCount: string;
+}
 
 @Injectable()
 export class CommentsService {
@@ -40,7 +54,10 @@ export class CommentsService {
       .leftJoin('comment.author', 'author');
   }
 
-  async create(createCommentDto: CreateCommentDto, authorId: string): Promise<Comment> {
+  async create(
+    createCommentDto: CreateCommentDto,
+    authorId: string,
+  ): Promise<Comment> {
     if (!createCommentDto.content || createCommentDto.content.trim() === '') {
       throw new BadRequestException('Comment content cannot be empty');
     }
@@ -56,15 +73,14 @@ export class CommentsService {
     return this.commentRepository.save(newComment);
   }
 
-
-  async findByPost(postId: string): Promise<any[]> {
+  async findByPost(postId: string): Promise<RawCommentData[]> {
     const comments = await this.getCommentQueryBuilder()
       .andWhere('comment.postId = :postId', { postId })
       .andWhere('comment.parentId IS NULL')
       .orderBy('comment.createdAt', 'DESC')
-      .getRawMany();
+      .getRawMany<RawCommentData>();
 
-    return comments.map(comment => ({
+    return comments.map((comment) => ({
       id: comment.comment_id,
       content: comment.comment_content,
       parentId: comment.comment_parentId,
@@ -81,13 +97,13 @@ export class CommentsService {
     }));
   }
 
-  async findReplies(commentId: string): Promise<any[]> {
+  async findReplies(commentId: string): Promise<RawCommentData[]> {
     const replies = await this.getCommentQueryBuilder()
       .andWhere('comment.parentId = :commentId', { commentId })
       .orderBy('comment.createdAt', 'ASC')
-      .getRawMany();
+      .getRawMany<RawCommentData>();
 
-    return replies.map(reply => ({
+    return replies.map((reply) => ({
       id: reply.comment_id,
       content: reply.comment_content,
       parentId: reply.comment_parentId,

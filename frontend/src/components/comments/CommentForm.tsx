@@ -24,14 +24,14 @@ export const CommentForm = ({ postId, parentId = null, onCommentPosted }: Commen
       router.push('/login');
       return;
     }
-    await createComment({ content, postId, parentId }, token);
+    await createComment({ content, postId, parentId: parentId || undefined }, token);
     setContent('');
     onCommentPosted();
   };
 
   return (
     <form onSubmit={handleSubmit} className="my-4">
-      <RichTextEditor value={content} onChange={setContent} />
+      <RichTextEditor value={content} onChange={setContent} minHeight="min-h-[100px]" />
       <Button type="submit" className="mt-2">
         Post Comment
       </Button>

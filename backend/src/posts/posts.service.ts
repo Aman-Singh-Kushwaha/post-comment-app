@@ -9,6 +9,11 @@ import { Repository } from 'typeorm';
 import { Post } from './post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { User } from '../user/user.entity';
+
+interface PostWithAuthor extends Post {
+  author: Omit<User, 'passwordHash'>;
+}
 
 @Injectable()
 export class PostsService {
@@ -28,19 +33,18 @@ export class PostsService {
     return this.postRepository.save(post);
   }
 
-  async findAll(): Promise<any[]> {
+  async findAll(): Promise<PostWithAuthor[]> {
     const posts = await this.postRepository.find({
       relations: ['author'],
       order: { createdAt: 'DESC' },
     });
-    return posts.map(post => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return posts.map((post) => {
       const { passwordHash, ...author } = post.author;
       return { ...post, author };
     });
   }
 
-  async findOne(id: string): Promise<any> {
+  async findOne(id: string): Promise<PostWithAuthor> {
     const post = await this.postRepository.findOne({
       where: { id },
       relations: ['author'],
@@ -48,7 +52,7 @@ export class PostsService {
     if (!post) {
       throw new NotFoundException(`Post with ID ${id} not found`);
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const { passwordHash, ...author } = post.author;
     return { ...post, author };
   }
@@ -64,10 +68,7 @@ export class PostsService {
         'You are not authorized to update this post',
       );
     }
-    if (
-      !updatePostDto.title &&
-      !updatePostDto.content
-    ) {
+    if (!updatePostDto.title && !updatePostDto.content) {
       throw new BadRequestException('Either title or content must be provided');
     }
     Object.assign(post, updatePostDto);

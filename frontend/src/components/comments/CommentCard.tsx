@@ -55,7 +55,7 @@ export const CommentCard = ({ postId, comment, onCommentAction }: CommentCardPro
       <CardTitle className="p-2 pb-0">
         <div className="flex items-center space-x-4">
           <div className="font-bold">{comment.author?.username}</div>
-          <div className="text-sm text-muted-foreground">
+          {/* <div className="text-sm text-muted-foreground">
             {new Date(comment.createdAt).toLocaleDateString("en-US",{
               year: 'numeric',
               month: 'short',
@@ -67,7 +67,7 @@ export const CommentCard = ({ postId, comment, onCommentAction }: CommentCardPro
                 hour12: true
               })
             }
-          </div>
+          </div> */}
         </div>
       </CardTitle>
 
@@ -76,7 +76,7 @@ export const CommentCard = ({ postId, comment, onCommentAction }: CommentCardPro
       </CardContent>
       <CardFooter className="flex justify-between">
         <div className="space-x-4">
-          {parseInt(comment.childrenCount) > 0 && (
+          {+comment.childrenCount > 0 && (
             <Button variant="ghost" onClick={handleShowReplies}>
               {showReplies ? 'Hide' : `Show ${comment.childrenCount} replies`}
             </Button>

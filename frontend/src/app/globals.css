@@ -108,8 +108,8 @@
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
 }
 
 @layer base {
@@ -123,7 +123,6 @@
 
 .tiptap {
   border: 1px solid #e2e8f0;
-  min-height: 300px;
   padding: 1rem;
   border-radius: 0.375rem; 
 }

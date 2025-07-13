@@ -18,8 +18,13 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await login({ username, password });
-    router.push('/');
+    try {
+      await login({ username, password });
+      router.push('/');
+    } catch (error) {
+      console.error('Failed to login', error);
+      // Handle login error (e.g., show a toast)
+    }
   };
 
   return (
@@ -48,7 +53,7 @@ export default function LoginPage() {
         <CardFooter className="flex flex-col">
           <Button onClick={handleSubmit} className="w-full">Login</Button>
           <p className="mt-4 text-xs text-center text-gray-700">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href="/register" className="text-blue-500 hover:underline">
               Register
             </Link>

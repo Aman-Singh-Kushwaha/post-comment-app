@@ -40,7 +40,7 @@ export default function CreatePostPage() {
           onChange={(e) => setTitle(e.target.value)}
           required
         />
-        <RichTextEditor value={content} onChange={setContent} />
+        <RichTextEditor value={content} onChange={setContent} minHeight="min-h-[400px]" />
         <Button type="submit">Create Post</Button>
       </form>
     </div>

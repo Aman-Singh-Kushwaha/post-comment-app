@@ -3,13 +3,15 @@ import StarterKit from '@tiptap/starter-kit';
 import { Toolbar } from '@/components/ui/toolbar';
 import { Button } from '@/components/ui/button';
 import { Bold, Italic, Strikethrough } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface RichTextEditorProps {
   value: string;
   onChange: (value: string) => void;
+  minHeight?: string;
 }
 
-const RichTextEditor = ({ value, onChange }: RichTextEditorProps) => {
+const RichTextEditor = ({ value, onChange, minHeight = 'min-h-[300px]' }: RichTextEditorProps) => {
   const editor = useEditor({
     extensions: [StarterKit],
     content: value,
@@ -44,7 +46,7 @@ const RichTextEditor = ({ value, onChange }: RichTextEditorProps) => {
           <Strikethrough className="h-4 w-4" />
         </Button>
       </Toolbar>
-      <EditorContent className = "min-h-[300px] border-solid-2" editor={editor} />
+      <EditorContent className={cn(" border-solid", minHeight)} editor={editor} />
 
     </div>
   );
