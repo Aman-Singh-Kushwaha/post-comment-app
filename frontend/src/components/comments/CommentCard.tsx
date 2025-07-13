@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { getReplies } from '@/lib/api';
@@ -32,6 +32,7 @@ export const CommentCard = ({ postId, comment, onCommentAction }: CommentCardPro
       } catch (error) {
         console.error('Failed to fetch replies:', error);
         toast.error('Failed to fetch replies');
+        onCommentAction()
       }
     }
     setShowReplies(!showReplies);
