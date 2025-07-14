@@ -15,12 +15,7 @@ import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { AuthGuard } from '@nestjs/passport';
-
-interface IRequestWithUser extends Request {
-  user: {
-    id: string;
-  };
-}
+import { IRequestWithUser } from '../auth/types';
 
 @Controller('posts')
 export class PostsController {

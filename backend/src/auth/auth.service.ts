@@ -27,9 +27,7 @@ export class AuthService {
         passwordHash: hashedPassword,
       });
 
-      const { passwordHash, ...result } = user; // Excludes manually passwd from user object
-
-      return result as User;
+      return user;
     } catch (error: unknown) {
       // PostgreSQL unique violation error code
       const err = error as { code?: string; detail?: string };
@@ -51,8 +49,7 @@ export class AuthService {
   async validateUser(username: string, pass: string): Promise<User | null> {
     const user = await this.userService.findByUsername(username);
     if (user && (await bcrypt.compare(pass, user.passwordHash))) {
-      const { passwordHash, ...result } = user;
-      return result as User;
+      return user;
     }
     return null;
   }

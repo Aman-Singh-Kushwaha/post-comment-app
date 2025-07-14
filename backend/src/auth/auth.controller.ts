@@ -14,11 +14,7 @@ import {
 import { AuthService } from './auth.service';
 import { RegisterDto, LoginDto } from './dto/auth.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { User } from '../user/user.entity';
-
-interface IRequestWithUser extends Request {
-  user: User;
-}
+import { IRequestWithUser } from './types';
 
 @Controller('auth')
 export class AuthController {

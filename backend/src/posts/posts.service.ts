@@ -9,11 +9,6 @@ import { Repository } from 'typeorm';
 import { Post } from './post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { User } from '../user/user.entity';
-
-interface PostWithAuthor extends Post {
-  author: Omit<User, 'passwordHash'>;
-}
 
 @Injectable()
 export class PostsService {
@@ -33,18 +28,14 @@ export class PostsService {
     return this.postRepository.save(post);
   }
 
-  async findAll(): Promise<PostWithAuthor[]> {
-    const posts = await this.postRepository.find({
+  async findAll(): Promise<Post[]> {
+    return this.postRepository.find({
       relations: ['author'],
       order: { createdAt: 'DESC' },
     });
-    return posts.map((post) => {
-      const { passwordHash, ...author } = post.author;
-      return { ...post, author };
-    });
   }
 
-  async findOne(id: string): Promise<PostWithAuthor> {
+  async findOne(id: string): Promise<Post> {
     const post = await this.postRepository.findOne({
       where: { id },
       relations: ['author'],
@@ -52,9 +43,7 @@ export class PostsService {
     if (!post) {
       throw new NotFoundException(`Post with ID ${id} not found`);
     }
-
-    const { passwordHash, ...author } = post.author;
-    return { ...post, author };
+    return post;
   }
 
   async update(

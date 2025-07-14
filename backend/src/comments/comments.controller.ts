@@ -10,12 +10,7 @@ import {
 import { CommentsService } from './comments.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateCommentDto } from './dto/create-comment.dto';
-
-interface IRequestWithUser extends Request {
-  user: {
-    id: string;
-  };
-}
+import { IRequestWithUser } from '../auth/types';
 
 @Controller('comments')
 export class CommentsController {
